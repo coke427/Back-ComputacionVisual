@@ -19,5 +19,11 @@ namespace AutogestionAPI.Negocio
             string rpta = objDato.regSolicitud(cmsolicitud ,bandera);
             return rpta;
         }
+
+        public string updSolicitud(CMSolicitud cmsolicitud, string bandera)
+        {
+            string rpta = objDato.updSolicitud(cmsolicitud, bandera);
+            return rpta;
+        }
     }
 }

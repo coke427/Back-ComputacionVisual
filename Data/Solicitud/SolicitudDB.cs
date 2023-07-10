@@ -69,7 +69,7 @@ namespace AutogestionAPI.Data.Solicitud
                 sqlCmd.CommandText = "Solicitud_reg";
                 sqlCmd.CommandType = CommandType.StoredProcedure;
                 sqlCmd.Parameters.AddWithValue("@soli_nombres", cmsolicitud.soli_nombres);
-                sqlCmd.Parameters.AddWithValue("@soli_apellidos", cmsolicitud.soli_apellidos);    
+                sqlCmd.Parameters.AddWithValue("@soli_apellidos", cmsolicitud.soli_apellidos);
                 sqlCmd.Parameters.AddWithValue("@soli_dni", cmsolicitud.soli_dni);
                 sqlCmd.Parameters.AddWithValue("@soli_telefono", cmsolicitud.soli_telefono);
                 sqlCmd.Parameters.AddWithValue("@soli_correo", cmsolicitud.soli_correo);
@@ -79,7 +79,47 @@ namespace AutogestionAPI.Data.Solicitud
                 SqlDataReader sdr = sqlCmd.ExecuteReader();
                 rpta = "0";
             }
-            
+
+            catch (Exception ex)
+            {
+                rpta = ex.Message;
+            }
+            finally
+            {
+                if (sqlCon.State == ConnectionState.Open)
+                {
+                    sqlCon.Close();
+                }
+            }
+            return rpta;
+        }
+
+        public string updSolicitud(CMSolicitud cmsolicitud, string bandera)
+        {
+            string rpta = "";
+            SqlConnection sqlCon = new SqlConnection();
+            try
+            {
+                sqlCon.ConnectionString = con.obtenerDatosConexion(bandera);
+                sqlCon.Open();
+                SqlCommand sqlCmd = new SqlCommand();
+                sqlCmd.Connection = sqlCon;
+                sqlCmd.CommandText = "Solicitud_upd";
+                sqlCmd.CommandType = CommandType.StoredProcedure;
+
+                sqlCmd.Parameters.AddWithValue("@soli_nombres", cmsolicitud.soli_nombres);
+                sqlCmd.Parameters.AddWithValue("@soli_apellidos", cmsolicitud.soli_apellidos);
+                sqlCmd.Parameters.AddWithValue("@soli_dni", cmsolicitud.soli_dni);
+                sqlCmd.Parameters.AddWithValue("@soli_telefono", cmsolicitud.soli_telefono);
+                sqlCmd.Parameters.AddWithValue("@soli_correo", cmsolicitud.soli_correo);
+                sqlCmd.Parameters.AddWithValue("@contri_ubigeo", cmsolicitud.soli_correo);
+                sqlCmd.Parameters.AddWithValue("@soli_dimension", cmsolicitud.soli_dimension);
+                sqlCmd.Parameters.AddWithValue("@soli_direccion", cmsolicitud.soli_direccion);
+                sqlCmd.Parameters.AddWithValue("@soli_status", cmsolicitud.soli_status);
+                SqlDataReader sdr = sqlCmd.ExecuteReader();
+                rpta = "0";
+            }
+
             catch (Exception ex)
             {
                 rpta = ex.Message;
